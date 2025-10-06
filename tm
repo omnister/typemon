@@ -251,7 +251,7 @@ proc show_version {} {
 	set text "$text 1995,1996,1997,1998,1999,2005 by"
 	set text "$text Richard Walker (walker@omnisterra.com), and"
 	set text "$text Tom Knotts (tomknotts@gmail.com).  It may"
-	set text "$text may be freely used and copied for personal use, as"
+	set text "$text be freely used and copied for personal use, as"
 	set text "$text long as this notice is preserved intact."
 
 	tk_dialog .options tm.version $text "" 0 ok
