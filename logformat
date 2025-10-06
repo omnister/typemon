@@ -1,0 +1,43 @@
+
+The log file is kept in ~/.typelog
+
+When the program is started fresh, a line is added like
+
+    02/28/97 19:50:37 [RESTART]  T = 00:00:00, M = 00:00:00, A = 00:00:00
+
+The T field is typing time, the M field is mousing time, and the
+A field is total activity time: either mousing or typing.  The A field
+is not the simple sum of T & A because of overlap between the various
+activities.
+
+If the verbose (-v) option is enabled, then the command line
+parameters are also echoed:
+
+    #Options: -t20 -m80 -r10 -p5 -o1 /dev/ps2kbd /dev/ps2mouse
+    02/28/97 19:50:37 [RESTART]  T = 00:00:00, M = 00:00:00, A = 00:00:00
+
+If the program is killed during the day, and later restarted, it
+is important to remember what the elapsed working time was, so a
+line is generated so that typemon can initialize itself when restarted:
+
+    02/24/97 19:49:48 [KILLED]  T = 00:00:08, M = 00:00:39, A = 00:00:39
+
+At midnight of each day, a summary of the day's activity is printed
+in the log:
+
+    02/28/97 23:59:56 [Summary]  T = 00:36:54, M = 01:41:51, A = 01:54:06
+
+After printing the summary, the internal time counters are zero'ed
+to start the next day fresh.
+
+I plan to extend this format with a line like:
+
+    06/07/99 20:59:52 [QUESTION/1.0] 8:1/0 2:1/2 22:0/2
+
+This gives the version of the question file (1.0), and then
+a list of <questions>:<number_yes>/<number_no>.  So the example
+above says that question 8 was asked only once in the day
+and the answer was yes.  Question 2 was asked three times and answered
+yes once.  Question 22 was asked twice and answered no both times.
+
+Rick Walker 

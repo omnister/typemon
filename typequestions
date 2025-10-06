@@ -1,0 +1,53 @@
+# This is the tm(1) "typemon" question file.
+#
+# Version 0.1 6/15/99, Rick Walker walker@opus.hpl.hp.com 1-857-3754
+# 
+#
+# Format:
+#
+#   1. comments are introduced by a "#" sign in the first column.
+#   2. Questions are delimited by completely blank lines. 
+#   3. The first token of each line is a question identifier. This
+#      will generally be a number followed by a right parenthesis ")".
+#      The identifier is used to report question results in the
+#      ~/.typelog logfile.  
+#   4. If you add personal questions, please use numbers starting
+#      at 100 or above (eg: "100)").  That way the HP Ergonomics
+#      team can reliably combine logfiles to assess lab-wide
+#      progress.
+#   5. To enable a question (or several questions), simply remove
+#      the comment character "#" from *all* lines of the question. It
+#      is recommended that up to three questions be used at a time, and
+#      that the questions be changed after they become habit and have
+#      been answered "yes" for several weeks in a row.
+
+#1) Have I been using wrist rests only for short breaks while not typing?
+
+#2) Have my forearms been held free from work surfaces while typing?
+
+#3) Have I been using arm rests only for short breaks while not typing?
+
+#4) Have my shoulders been relaxed with arms hanging freely and elbows
+#close to my sides? 
+
+#5) Have I been typing with soft keypresses ?
+
+6) Have I been keeping my head balanced (chin in, back of the head up and
+ in line with my spine)?
+
+#7) Have I been sitting with my lower back against the back of my chair?
+
+#8) Have I been keeping my wrists straight for good tendon freedom and
+#blood flow? 
+
+9) Have I been keeping my thumbs in a naturally relaxed position? 
+
+10)  Have I been keeping my thumbs and fingers relaxed, avoiding 
+stiff or tense postures?
+
+11) Have I been resting my hands in a neutral position when I pause to think?
+
+#13) Have I stretched in the last 3 hours?
+
+14) Have I stood and stretched my back (backward bends) in the last hour?
+
