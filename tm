@@ -79,7 +79,7 @@ set moldidle 0.0
 set t_total 0.0
 set m_total 0.0
 set a_total 0.0
-set latency 5.0
+set latency 2.5
 set delta_time 0.0
 set ACTIVITY_LIMIT 100.0
 set activity 0.0
