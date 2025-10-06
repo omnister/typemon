@@ -1,0 +1,42 @@
+#!/bin/ksh
+#
+# quick and dirty ascii plot of "tm" typing moniter activity log
+# 12/5/95 Rick Walker, walker@opus.hpl.hp.com 
+#
+if [ ! -r ~/.typelog ] 
+then
+    echo "   $0: cant open ~/.typelog";
+    exit 1
+fi
+
+cat ~/.typelog | awk 'BEGIN {
+	print
+	print "DATE:    HOURS:"
+    }
+
+/Summ/ {
+    date = $1
+    foo = $NF
+    split(foo,x,":")
+    hour = x[1]
+    min  = x[2]
+    sec  = x[3]
+    decimal_hour = hour+min/60+sec/(60^2)
+
+    printbar(date,decimal_hour);
+    next;
+}
+
+function printbar(date,decimal_hour) {
+    printf("%s ",date);
+    for(min=0; min<=12*60; min+=12*60/72) {
+	if (decimal_hour*60 >= min && min != 0) {
+	    if (min%60 == 0) {
+	    	printf("%d",int(min/60));
+	    } else {
+	    	printf("-");
+	    }
+	}
+    }
+    printf("\n");
+}' | tail -20
