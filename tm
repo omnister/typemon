@@ -61,6 +61,11 @@ set obnox   0
 
 set verbose 0
 
+;# use Stephen's xprintidle to get idle time
+;# using /proc/interrupts is currently broken
+
+set xprintidle 1
+
 ;# set up geometry for dialog boxes to be in approximately the center of
 ;# the display area
 ;#
@@ -142,6 +147,7 @@ proc usage {} {
 	puts {   [-r <seconds>] set resting time}
 	puts {   [-t <seconds>] set maximim typing time}
 	puts {   [-v] enable verbose log file}
+	puts {   [-i] use old /proc/interrupts code instead of xprintidle}
 }
 
 ;# options "dfngsh" are already grabbed by wish!
@@ -162,6 +168,7 @@ while {$argind < $nargs} {
 	set opt [lindex $s $argind]
 	switch -- $opt {
 		-b { wm withdraw . ; incr argind 1 }
+		-i {set xprintidle 0; incr argind 1}
 		-l {set latency [lindex $s [incr argind 1]]; incr argind 1}
 		-m {set t_mouse [lindex $s [incr argind 1]]; incr argind 1}
 		-o {set obnox   [lindex $s [incr argind 1]]; incr argind 1}
@@ -186,52 +193,93 @@ proc get_dev_files {} {
 	global tcl_platform
 
 	switch $tcl_platform(platform) {
-		unix {
+	    unix {
+
+		proc get_idle {t m d} {
+		    upvar $m midle
+		    upvar $t tidle
+		    upvar $d delta_time
+
+		    global now
+		    global x
+		    global y
+		    global xold
+		    global yold
+		    global xprintidle
+
+		    set then $now
+		    set now [clock seconds]
+
+		    set delta_time [expr {$now - $then}]
+
+		    if {$xprintidle == 1} {
 
 			;# both mouse and keyboard idle time is reported by xprintidle
 			;# maybe merge midle and tidle into single idle variable?
 			;# - stephen
 
-			proc get_idle {t m d} {
-				upvar $m midle
-				upvar $t tidle
-				upvar $d delta_time
-				global now
-
-				set then $now
-				set now [clock seconds]
-				set delta_time [expr {$now - $then}]
-
-				# get idle time from xprintidle
-				if {[catch {exec xprintidle} idle_ms]} {
-					puts "ERROR: xprintidle not available"
-					set tidle 0
-					set midle 0
-					return
-				}
-
-				set idle_sec [expr {$idle_ms / 1000.0}]
-
-				set tidle $idle_sec
-				set midle $idle_sec
+			# get idle time from xprintidle
+			if {[catch {exec xprintidle} idle_ms]} {
+			    puts "ERROR: xprintidle not available"
+			    puts "you can download it with sudo apt install xprintidle"
+			    exit 5
 			}
 
-		}
+			set idle_sec [expr {$idle_ms / 1000.0}]
 
-		windows {
-			puts "on WINDOWS"
-		}
+			set tidle $idle_sec
+			set midle $idle_sec
 
-		macintosh {
-			puts "on MAC"
+		    } else {
+			;# use old /proc/interrupts code
+			;# this is probably broken on newer systems
+			;# so is turned off by default
+			;#
+			;# left here to show how to handle keyboard and mouse time
+			;# separately since they have different physiological impacts
+			;# for most people.
+
+			set f [open {| cat /proc/interrupts}]
+			while {[gets $f line] >= 0} {
+			    if [regexp " 12:" $line] {
+                                set xold $x
+				set x [lindex $line 1]
+			    } elseif [regexp " 1:" $line] {
+				set yold $y
+				set y [lindex $line 1]
+			    }
+                         }
+                         close $f
+
+                         if {$yold == $y} {
+                             set tidle [expr $tidle + $delta_time]
+                         } else {
+                             set tidle 0
+                         }
+
+                         if {$xold == $x} {
+                             set midle [expr $midle + $delta_time]
+                         } else {
+                             set midle 0
+                         }
+		    }
 		}
+	    }
+
+	    windows {
+		    puts "on WINDOWS"
+	    }
+
+	    macintosh {
+		    puts "on MAC"
+	    }
 	}
 }
 
 get_dev_files
 
 proc show_options {} {
-	global t_mouse obnox t_pause t_rest t_type verbose latency
+	global t_mouse obnox t_pause t_rest t_type verbose latency xprintidle
 	set text ""
 	set text "$text t_type  (-t) = $t_type\n"
 	set text "$text t_mouse (-m) = $t_mouse\n"
@@ -240,6 +288,7 @@ proc show_options {} {
 	set text "$text latency (-l) = $latency\n"
 	set text "$text obnox   (-o) = $obnox\n"
 	set text "$text verbose (-v) = $verbose\n"
+	set text "$text xprintidle (-x) = $xprintidle\n"
 
 	tk_dialog .options tm.options $text "" 0 ok
 }
@@ -248,7 +297,7 @@ proc show_version {} {
 	global tm_version
 	set text ""
 	set text "$text tm version $tm_version is copyright"
-	set text "$text 1995,1996,1997,1998,1999,2005 by"
+	set text "$text 1995,1996,1997,1998,1999,2005,2025 by"
 	set text "$text Richard Walker (walker@omnisterra.com), and"
 	set text "$text Tom Knotts (tomknotts@gmail.com).  It may"
 	set text "$text be freely used and copied for personal use, as"
@@ -351,6 +400,7 @@ proc tick {} {
 	global time
 	global queried
 	global geometry_dialog
+	global xprintidle
 
 	set old_date $date
 	set date [clock format [clock seconds] -format "+%m/%d/%y %H:%M:%S"]
@@ -587,7 +637,7 @@ proc inittime {} {
 
 	if {[openlog {RDWR CREAT} 0600 ] == 1} {
 		puts "can\'t open logfile"
-		exit
+		exit 2
 	}
 
 	scan [clock format [clock seconds] -format "+%m %d %y"] "%d %d %d" \

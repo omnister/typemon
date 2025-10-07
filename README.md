@@ -1,4 +1,5 @@
 # typemon
+
 Monitors typing activity and suggests rest breaks at programmable times
 
 "typemon" is an HP-UX X11/curses-based program that attempts to reduce
@@ -9,8 +10,8 @@ advising the user to take a rest break.  The window remains until there
 has been no typing or mousing for the user-defined rest time. 
 
 Included here is a version of typemon (abbreviated to "tm") for running
-with the Tcl/Tk wish interpreter (for Tk version 8.4).  check out
-"http://www.scriptic.com" for the latest Tcl/Tk release. 
+with the Tcl/Tk wish interpreter (for Tk version 8.4).  Check out
+"https://www.tcl-lang.org/" for the latest Tcl/Tk release. 
 
 Also included is the man page "tm.1", and the "typehisto" script for
 creating a weekly typing summary for your doctor.
