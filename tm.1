@@ -9,10 +9,6 @@ tm \- "typemon" monitor keyboard and mouse activity and suggest rest breaks.
 .B -bpqrtmxo
 ]
 .SH DESCRIPTION
-Tm is a script running under the tcl/tk package by John Ousterhout (See
-usenet group comp.lang.tcl for details, or check out
-"http://www.scriptics.com" for the latest release).  As distributed, tm
-is written for the tcl8.4/tk8.4 wish interpreter. 
 .P
 Tm attempts to reduce repetitive stress injury (RSI) by
 monitoring mouse and keyboard activity to suggest periodic rest breaks. 
@@ -23,6 +19,11 @@ the user-defined rest time.  A log file ~/.typelog keeps track of the
 total cumulative typing and mousing times for each day.  
 This data can be plotted in histogram form using the script
 .I typehisto.
+.P
+Tm is a script running under the tcl/tk package by John Ousterhout (See
+usenet group comp.lang.tcl for details, or check out
+"http://www.scriptics.com" for the latest release).  As distributed, tm
+is written for the tcl8.4/tk8.4 wish interpreter. 
 .P
 The main status window contains two bargraphs allowing users to plan
 their rest breaks.  The upper bargraph shows the percentage of time 
@@ -159,7 +160,7 @@ John Wiley and Sons, ISBN 0-471-59533-0.
 The default logfile is ~/.typelog.  The executable is
 /usr/local/bin/tm.   The default question file "~/.typequestions".
 .SH AUTHORS
-Tm was written circa 1992 by Rick Walker (walker@omnisterra.com), and
+Tm was written circa 1992 by Rick Walker (walker@omnisterra.com) and
 Tom Knotts (tomknotts@gmail.com).  This program was inspired by, and
 is similar to the script 'typewatch' by Richard Donkin
 (richardd@hoskyns.co.uk).  Tm was completely re-written in 1995 in C to
@@ -167,7 +168,8 @@ monitor mouse activity and enhance performance, and later re-written in
 tcl/tk to improve the user interface.  The question-asking facility was
 added 6/15/1999 in cooperation with the Hewlett-Packard Labs Ergonomic
 Pilot Project.  The code was modified to use the /proc/interrupts
-pseudo-file on linux systems in 2005.
+pseudo-file on linux systems in 2005.  Stephen Knotts (stephkno@gmail.com) 
+revived it in 2025 to make it run on modern linux systems.
 .SH BUGS
 Use this program at your own risk. No liability is assumed for the 
 results of using this program. The proper values of working and resting
