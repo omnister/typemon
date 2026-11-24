@@ -2,7 +2,6 @@
 # the next line restarts using wish \
 exec wish "$0" "$@"
 
-
 ;# NOTE!!! the above line must point at a working wish binary
 
 ;#
@@ -93,6 +92,7 @@ set fpquest ""
 set state Active
 set mode 1.0
 set queried 0
+set xevent 0
 
 set now [clock seconds]
 set x ""
@@ -148,6 +148,7 @@ proc usage {} {
 	puts {   [-t <seconds>] set maximim typing time}
 	puts {   [-v] enable verbose log file}
 	puts {   [-i] use old /proc/interrupts code instead of xprintidle}
+	puts {   [-x] use experimental /dev/event code instead of xprintidle}
 }
 
 ;# options "dfngsh" are already grabbed by wish!
@@ -169,6 +170,7 @@ while {$argind < $nargs} {
 	switch -- $opt {
 		-b { wm withdraw . ; incr argind 1 }
 		-i {set xprintidle 0; incr argind 1}
+		-x {set xprintidle 2; puts "you will have to run as sudo for event polling to work"; incr argind 1}
 		-l {set latency [lindex $s [incr argind 1]]; incr argind 1}
 		-m {set t_mouse [lindex $s [incr argind 1]]; incr argind 1}
 		-o {set obnox   [lindex $s [incr argind 1]]; incr argind 1}
@@ -206,6 +208,7 @@ proc get_dev_files {} {
 		    global xold
 		    global yold
 		    global xprintidle
+		    global xevent
 
 		    set then $now
 		    set now [clock seconds]
@@ -230,7 +233,7 @@ proc get_dev_files {} {
 			set tidle $idle_sec
 			set midle $idle_sec
 
-		    } else {
+		    } elseif {$xprintidle == 0} {
 			;# use old /proc/interrupts code
 			;# this is probably broken on newer systems
 			;# so is turned off by default
@@ -262,6 +265,28 @@ proc get_dev_files {} {
                          } else {
                              set midle 0
                          }
+
+		    } else {
+
+			# run xinput tool in a pipeline
+			# check if initialized and do it once
+			if {$xevent == 0} {
+			    set xevent [open "|xinput test-xi2 --root" r]
+			    fconfigure $xevent -blocking 0
+			    # puts $xevent
+			}
+
+			while {[gets $xevent line] >= 0} {
+			    if {[string match "*(Motion)*" $line]==1} {
+				set midle 0
+			    } 
+			    if {[string match "*(KeyPress)*" $line]==1} {
+				set tidle 0
+			    } 
+			}
+
+			set midle [expr $midle + $delta_time]
+			set tidle [expr $tidle + $delta_time]
 		    }
 		}
 	    }
