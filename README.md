@@ -173,8 +173,8 @@ Wiley and Sons, ISBN 0-471-59533-0.
 
 ## FILES
 
-The default logfile is ~/.typelog.  The executable is /usr/local/bin/tm. 
-The default question file "~/.typequestions". 
+The default logfile is \~/.typelog.  The executable is /usr/local/bin/tm. 
+The default question file "\~/.typequestions". 
 
 ## AUTHORS
 
