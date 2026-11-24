@@ -24,145 +24,139 @@ Send comments, bugs, or questions to:
     Tom Knotts,  tomknotts@gmail.com
 
 
-# tm(l)                                                                                                          
-
-## NAME
-       tm - "typemon" monitor keyboard and mouse activity and suggest rest breaks.
+# tm - "typemon" monitor keyboard and mouse activity, suggest rest breaks.
 
 ## SYNOPSIS
        tm [ -bpqrtmxo ]
 
 ## DESCRIPTION
 
-       Tm attempts to reduce repetitive stress injury (RSI) by
-       monitoring mouse and keyboard activity to suggest periodic rest
-       breaks.  If the consecutive time of typing or mousing exceeds the
-       user-defined limits, then a warning window pops up advising the
-       user to take a rest break.  The window remains until there has
-       been no typing or mousing for the user-defined rest time.  A log
-       file ~/.typelog keeps track of the total cumulative typing and
-       mousing times for each day.  This data can be plotted in
-       histogram form using the script typehisto. 
+Tm attempts to reduce repetitive stress injury (RSI) by
+monitoring mouse and keyboard activity to suggest periodic rest
+breaks.  If the consecutive time of typing or mousing exceeds the
+user-defined limits, then a warning window pops up advising the
+user to take a rest break.  The window remains until there has
+been no typing or mousing for the user-defined rest time.  A log
+file ~/.typelog keeps track of the total cumulative typing and
+mousing times for each day.  This data can be plotted in
+histogram form using the script typehisto. 
 
-       Tm is a script running under the tcl/tk package by John
-       Ousterhout (See usenet group comp.lang.tcl for details, or check
-       out "http://www.scriptics.com" for the latest release).  As
-       distributed, tm is written for the tcl8.4/tk8.4 wish interpreter. 
+Tm is a script running under the tcl/tk package by John
+Ousterhout (See usenet group comp.lang.tcl for details, or check
+out "http://www.scriptics.com" for the latest release).  As
+distributed, tm is written for the tcl8.4/tk8.4 wish interpreter. 
 
-       The main status window contains two bargraphs allowing users to
-       plan their rest breaks.  The upper bargraph shows the percentage
-       of time spent in the current working period.  The lower bargraph
-       shows the current amount of pause time.  When the pause time bar
-       graph reaches 100% of the rest time, the upper bargraph is
-       zeroed.  This feature allows the user to plan "pre-emptive" rest
-       breaks to coincide with natural pauses in work activity. 
+The main status window contains two bargraphs allowing users to
+plan their rest breaks.  The upper bargraph shows the percentage
+of time spent in the current working period.  The lower bargraph
+shows the current amount of pause time.  When the pause time bar
+graph reaches 100% of the rest time, the upper bargraph is
+zeroed.  This feature allows the user to plan "pre-emptive" rest
+breaks to coincide with natural pauses in work activity. 
 
-       A "stop" button in the upper right corner of the tm status window
-       allows tm to be temporarily stopped to avoid annoying a visitor. 
-       When tm is stopped, the normally blue bar-graph is displayed as
-       red.  An option menu allows the user to reset the activity timer,
-       display the status of all command line options, and show the
-       current version number. 
+A "stop" button in the upper right corner of the tm status window
+allows tm to be temporarily stopped to avoid annoying a visitor. 
+When tm is stopped, the normally blue bar-graph is displayed as
+red.  An option menu allows the user to reset the activity timer,
+display the status of all command line options, and show the
+current version number. 
 
-       -r  rest_time
-              This specifies the resting period, in seconds, that is
-              required to clear the warning window once the maximum
-              typing or mousing times have been exceeded. 
+### -r  rest_time
 
-       -t  maximum_typing_time
+This specifies the resting period, in seconds, that is required to clear
+the warning window once the maximum typing or mousing times have been
+exceeded. 
 
-              This is the maximum consecutive typing time allowed (in
-              seconds).  If this parameter is not specified, but the
-              maximum_mousing_time is, then the maximum_typing_time will
-              be set equal to the maximum_mousing_time.  If neither
-              parameter is set, then default values will be used for
-              both.  The typing timer increments whenever one is typing. 
-              If typing stops for more than pause_time, the timer stops
-              counting.  If typing does not resume in rest_time the
-              typing timer is reset to zero.  Whenever the timer reaches
-              maximum_typing_time, the warning window is activated.  The
-              warning window remains active until there has been no
-              typing or mousing activity for rest_time.  Once inactivity
-              has remained for rest_time, the window is cleared and the
-              typing and mousing timers are reset to zero. 
+### -t  maximum_typing_time
 
-       -m  maximum_mousing_time
-              This is the maximum consecutive mousing time allowed (in
-              seconds).  If this parameter is not specified, but the
-              maximum_typing_time is, then the maximum_mousing_time will
-              be set equal to the maximum_typing_time.  If neither
-              parameter is set, then default values will be used for
-              both.  The mousing timer increments whenever one is
-              mousing.  If mousing stops for more than pause_time, the
-              timer stops counting.  If mousing does not resume in
-              rest_time the mousing timer is reset to zero.  Whenever
-              the timer reaches maximum_mousing_time, the warning window
-              is activated.  The warning window remains active until
-              there has been no mousing or typing activity for
-              rest_time.  Once inactivity has remained for rest_time,
-              the window is cleared and the typing and mousing timers
-              are reset to zero. 
+This is the maximum consecutive typing time allowed (in seconds).  If
+this parameter is not specified, but the maximum_mousing_time is, then
+the maximum_typing_time will be set equal to the maximum_mousing_time. 
+If neither parameter is set, then default values will be used for both. 
+The typing timer increments whenever one is typing.  If typing stops for
+more than pause_time, the timer stops counting.  If typing does not
+resume in rest_time the typing timer is reset to zero.  Whenever the
+timer reaches maximum_typing_time, the warning window is activated.  The
+warning window remains active until there has been no typing or mousing
+activity for rest_time.  Once inactivity has remained for rest_time, the
+window is cleared and the typing and mousing timers are reset to zero. 
 
-       If both typing and mousing are occurring simultaneously, the
-       internal timers are incremented by an amount equal to the
-       weighted averages of maximum_typing_time and
-       maximum_mousing_time.  The warning will then be issued at an
-       interval of time that falls somewhere between maximum_typing_time
-       and maximum_mousing_time. 
+### -m  maximum_mousing_time
 
-       -p  pause_time
+This is the maximum consecutive mousing time allowed (in seconds).  If
+this parameter is not specified, but the maximum_typing_time is, then
+the maximum_mousing_time will be set equal to the maximum_typing_time. 
+If neither parameter is set, then default values will be used for both. 
+The mousing timer increments whenever one is mousing.  If mousing stops
+for more than pause_time, the timer stops counting.  If mousing does not
+resume in rest_time the mousing timer is reset to zero.  Whenever the
+timer reaches maximum_mousing_time, the warning window is activated. 
+The warning window remains active until there has been no mousing or
+typing activity for rest_time.  Once inactivity has remained for
+rest_time, the window is cleared and the typing and mousing timers are
+reset to zero. 
 
-              This time (in seconds) determines how long of a pause will
-              stop the mouse and keyboard activity timers from running. 
+If both typing and mousing are occurring simultaneously, the internal
+timers are incremented by an amount equal to the weighted averages of
+maximum_typing_time and maximum_mousing_time.  The warning will then be
+issued at an interval of time that falls somewhere between
+maximum_typing_time and maximum_mousing_time. 
 
-       -b     This option runs tm in the background without generating the
-              normal status window. 
+### -p  pause_time
 
-       -x  verbose logfile.
+This time (in seconds) determines how long of a pause will
+stop the mouse and keyboard activity timers from running. 
 
-              This option writes updated information to the logfile each
-              time the keyboard or mouse change from active to passive
-              states.  This option will cause the logfile to grow very
-              quickly and is normally only used for debugging. 
+###  -b     
 
-       -q     This option causes tm to ask an ergonomic question at each
-	      rest break.  These questions are intended to
-              help the user to develop proper ergonomic work habits.  A
-              file in ~/.typequestions contains a list of questions that
-              are to be randomly asked whenever a rest break gets
-              scheduled.  The format of this file is plain text, with
-              questions separated by one or more blank lines.  Comments
-              are indicated by a hash sign "#" in the first column.  The
-              first token of each question should be a unique question
-              number which will be used when summarizing the answer
-              statistics.  Each evening at midnight, the day's question
-              statistics are logged in the ~/.typelog file for later
-              analysis.  By default, questions are disabled. 
+This option runs tm in the background without generating the normal
+status window. 
 
-       -o  obnoxiousness_level
+### -x  verbose logfile.
 
-              This option specifies how obnoxiously the program will try
-              to persuade you to rest.  A default setting of "0" will
-              pop up the "Take a break" window in the middle of the
-              screen only once and will silently truncate the "Continue
-              Resting" bar graph for rest violations.  Settings of "1"
-              and above will not destroy the "warn" window when the
-              "reset timer" button is selected from the "Options" menu,
-              making it harder to "cheat" on the rest period.  A setting
-              of "1" issues an audible beep everytime you violate your
-              rest period.  A setting of "2" will both beep and recenter
-              the window for every violation.  Level "3" is the same as
-              level "2", but also grabs the keyboard and mouse focus,
-              essentially taking over the user interface until the timer
-              expires.  Level "3" is guaranteed to stop the most
-              flagrant violator! 
+This option writes updated information to the logfile each
+time the keyboard or mouse change from active to passive
+states.  This option will cause the logfile to grow very
+quickly and is normally only used for debugging. 
 
-       Typemon  currently monitors typing and mousing activity by monitoring the pseudo-file /proc/interrupts that is
-       present in most modern linux systems.  Currently, it is assumed that the mouse is connected  to  interrupt  12
-       and  the  keyboard to interrupt 1.  This can easily be changed in the wish script if your system is configured
-       differently.  Hackers may wish to modify the routine get_idle() in the tm script to autoconfigure properly for
-       non HP-UX systems.  The author would appreciate receiving copies of any such enhancements for incorporation in
-       the distributed source code.
+### -q 
+
+This option causes tm to ask an ergonomic question at each rest break. 
+These questions are intended to help the user to develop proper
+ergonomic work habits.  A file in ~/.typequestions contains a list of
+questions that are to be randomly asked whenever a rest break gets
+scheduled.  The format of this file is plain text, with questions
+separated by one or more blank lines.  Comments are indicated by a hash
+sign "#" in the first column.  The first token of each question should
+be a unique question number which will be used when summarizing the
+answer statistics.  Each evening at midnight, the day's question
+statistics are logged in the ~/.typelog file for later analysis.  By
+default, questions are disabled. 
+
+### -o  obnoxiousness_level
+
+This option specifies how obnoxiously the program will try to persuade
+you to rest.  A default setting of "0" will pop up the "Take a break"
+window in the middle of the screen only once and will silently truncate
+the "Continue Resting" bar graph for rest violations.  Settings of "1"
+and above will not destroy the "warn" window when the "reset timer"
+button is selected from the "Options" menu, making it harder to "cheat"
+on the rest period.  A setting of "1" issues an audible beep everytime
+you violate your rest period.  A setting of "2" will both beep and
+recenter the window for every violation.  Level "3" is the same as level
+"2", but also grabs the keyboard and mouse focus, essentially taking
+over the user interface until the timer expires.  Level "3" is
+guaranteed to stop the most flagrant violator! 
+
+Typemon currently monitors typing and mousing activity by monitoring the
+pseudo-file /proc/interrupts that is present in most modern linux
+systems.  Currently, it is assumed that the mouse is connected to
+interrupt 12 and the keyboard to interrupt 1. This can easily be changed
+in the wish script if your system is configured differently.  Hackers
+may wish to modify the routine get_idle() in the tm script to
+autoconfigure properly for non HP-UX systems.  The author would
+appreciate receiving copies of any such enhancements for incorporation
+in the distributed source code. 
 
 ## EXAMPLES
 
