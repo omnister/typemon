@@ -41,6 +41,8 @@ file ~/.typelog keeps track of the total cumulative typing and
 mousing times for each day.  This data can be plotted in
 histogram form using the script typehisto. 
 
+![typemon window](images/tm.png)
+
 Tm is a script running under the tcl/tk package by John
 Ousterhout (See usenet group comp.lang.tcl for details, or check
 out "http://www.scriptics.com" for the latest release).  As
