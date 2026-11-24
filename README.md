@@ -26,13 +26,13 @@ Send comments, bugs, or questions to:
 
 # tm(l)                                                                                                          
 
-NAME
+## NAME
        tm - "typemon" monitor keyboard and mouse activity and suggest rest breaks.
 
-SYNOPSIS
+## SYNOPSIS
        tm [ -bpqrtmxo ]
 
-DESCRIPTION
+## DESCRIPTION
        Tm  attempts to reduce repetitive stress injury (RSI) by monitoring mouse and keyboard activity to suggest periodic rest breaks.  If the consecutive time of typing or mousing exceeds  the  user-defined  limits,  then  a
        warning  window  pops  up  advising the user to take a rest break.  The window remains until there has been no
        typing or mousing for the user-defined rest time.  A log file ~/.typelog keeps track of the  total  cumulative
@@ -106,26 +106,26 @@ DESCRIPTION
        non HP-UX systems.  The author would appreciate receiving copies of any such enhancements for incorporation in
        the distributed source code.
 
-EXAMPLES
+## EXAMPLES
        To specify a maximum 10-minute typing time, a 15-minute mousing time, a 2-minute rest time, a 10-second  pause
        threshold, and placing the status window in the lower right hand corner of a 1600x1200 display:
            "tm -t 600 -m 900 -r 120 -p 10 -geometry +1330+1040 &"
 
-SEE ALSO
+## SEE ALSO
        A  good  reference  book  on this subject is Emil Pascarelli and Deborah Quilter, "Repetitive Strain Injury, A
        Computer User's Guide", 1994, John Wiley and Sons, ISBN 0-471-59533-0.
 
-FILES
+## FILES
        The default logfile is ~/.typelog.  The executable is /usr/local/bin/tm.   The default question file "~/.typequestions".
 
-AUTHORS
+## AUTHORS
        Tm was written circa 1992 by Rick Walker (walker@omnisterra.com) and Tom Knotts  (tomknotts@gmail.com).   This
        program  was inspired by, and is similar to the script 'typewatch' by Richard Donkin (richardd@hoskyns.co.uk).
        Tm was completely re-written in 1995 in C to monitor mouse activity and enhance  performance,  and  later  re-written in tcl/tk to improve the user interface.  The question-asking facility was added 6/15/1999 in cooperation with the Hewlett-Packard Labs Ergonomic Pilot Project.  The code was modified to use the /proc/interrupts
        pseudo-file  on  linux systems in 2005.  Stephen Knotts (stephkno@gmail.com) revived it in 2025 to make it run
        on modern linux systems.
 
-BUGS
+## BUGS
        Use this program at your own risk. No liability is assumed for the results of using this program.  The  proper
        values of working and resting times should be selected by you according to the advice of your doctor.
 
